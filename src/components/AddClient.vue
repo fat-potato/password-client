@@ -2,14 +2,14 @@
   <div class="submit-form">
     <div v-if="!submitted">
       <div class="form-group">
-        <label for="title">Title</label>
+        <label for="name">Name</label>
         <input
           type="text"
           class="form-control"
-          id="title"
+          id="name"
           required
-          v-model="tutorial.title"
-          name="title"
+          v-model="client.name"
+          name="name"
         />
       </div>
       <div class="form-group">
@@ -18,42 +18,53 @@
           class="form-control"
           id="description"
           required
-          v-model="tutorial.description"
+          v-model="client.description"
           name="description"
         />
       </div>
-      <button @click="saveTutorial" class="btn btn-success">Submit</button>
+      <div class="form-group">
+        <label for="url">URL</label>
+        <input
+          class="form-control"
+          id="description"
+          required
+          v-model="client.site_url"
+          name="url"
+        />
+      </div>
+      <button @click="saveClient" class="btn btn-success">Submit</button>
     </div>
     <div v-else>
       <h4>You submitted successfully!</h4>
-      <button class="btn btn-success" @click="newTutorial">Add</button>
+      <button class="btn btn-success" @click="newClient">Add</button>
     </div>
   </div>
 </template>
 <script>
-import TutorialDataService from "../services/TutorialDataService";
+import ClientDataService from "../services/ClientDataService";
 export default {
-  name: "add-tutorial",
+  name: "add-client",
   data() {
     return {
-      tutorial: {
+      client: {
         id: null,
-        title: "",
+        name: "",
         description: "",
-        published: false,
+        site_url: "",
       },
       submitted: false,
     };
   },
   methods: {
-    saveTutorial() {
+    saveClient() {
       var data = {
-        title: this.tutorial.title,
-        description: this.tutorial.description,
+        name: this.client.name,
+        description: this.client.description,
+        site_url: this.client.site_url,
       };
-      TutorialDataService.create(data)
+      ClientDataService.create(data)
         .then((response) => {
-          this.tutorial.id = response.data.id;
+          this.client.id = response.data.id;
           console.log(response.data);
           this.submitted = true;
         })
@@ -62,9 +73,9 @@ export default {
         });
     },
 
-    newTutorial() {
+    newClient() {
       this.submitted = false;
-      this.tutorial = {};
+      this.client = {};
     },
   },
 };
