@@ -18,8 +18,8 @@ class ClientDataService {
   deleteAll() {
     return http.delete(`/clients`);
   }
-  findByTitle(title) {
-    return http.get(`/clients?title=${title}`);
+  findByName(name) {
+    return http.get(`/clients?name=${name}`);
   }
 }
 export default new ClientDataService();

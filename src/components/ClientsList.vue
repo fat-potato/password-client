@@ -5,14 +5,14 @@
         <input
           type="text"
           class="form-control"
-          placeholder="Search by title"
-          v-model="title"
+          placeholder="Search by name"
+          v-model="name"
         />
         <div class="input-group-append">
           <button
             class="btn btn-outline-secondary"
             type="button"
-            @click="searchTitle"
+            @click="searchName"
           >
             Search
           </button>
@@ -20,66 +20,66 @@
       </div>
     </div>
     <div class="col-md-6">
-      <h4>Tutorials List</h4>
+      <h4>Clients List</h4>
       <ul class="list-group">
         <li
           class="list-group-item"
           :class="{ active: index == currentIndex }"
-          v-for="(tutorial, index) in tutorials"
+          v-for="(client, index) in clients"
           :key="index"
-          @click="setActiveTutorial(tutorial, index)"
+          @click="setActiveClient(client, index)"
         >
-          {{ tutorial.title }}
+          {{ client.name }}
         </li>
       </ul>
-      <button class="m-3 btn btn-sm btn-danger" @click="removeAllTutorials">
+      <button class="m-3 btn btn-sm btn-danger" @click="removeAllClients">
         Remove All
       </button>
     </div>
     <div class="col-md-6">
-      <div v-if="currentTutorial">
-        <h4>Tutorial</h4>
+      <div v-if="currentClient">
+        <h4>Client</h4>
         <div>
-          <label><strong>Title:</strong></label> {{ currentTutorial.title }}
+          <label><strong>Name:</strong></label> {{ currentClient.name }}
         </div>
         <div>
           <label><strong>Description:</strong></label>
-          {{ currentTutorial.description }}
+          {{ currentClient.description }}
         </div>
         <div>
-          <label><strong>Status:</strong></label>
-          {{ currentTutorial.published ? "Published" : "Pending" }}
+          <label><strong>Site Url:</strong></label>
+          {{ currentClient.site_url }}
         </div>
         <router-link
-          :to="'/tutorials/' + currentTutorial.id"
+          :to="'/clients/' + currentClient.id"
           class="badge badge-warning"
           >Edit</router-link
         >
       </div>
       <div v-else>
         <br />
-        <p>Please click on a Tutorial...</p>
+        <p>Please click on a Client...</p>
       </div>
     </div>
   </div>
 </template>
 <script>
-import TutorialDataService from "../services/TutorialDataService";
+import ClientDataService from "../services/ClientDataService";
 export default {
-  name: "tutorials-list",
+  name: "clients-list",
   data() {
     return {
-      tutorials: [],
-      currentTutorial: null,
+      clients: [],
+      currentClient: null,
       currentIndex: -1,
-      title: "",
+      name: "",
     };
   },
   methods: {
-    retrieveTutorials() {
-      TutorialDataService.getAll()
+    retrieveClients() {
+      ClientDataService.getAll()
         .then((response) => {
-          this.tutorials = response.data;
+          this.clients = response.data;
           console.log(response.data);
         })
         .catch((e) => {
@@ -87,16 +87,16 @@ export default {
         });
     },
     refreshList() {
-      this.retrieveTutorials();
-      this.currentTutorial = null;
+      this.retrieveClients();
+      this.currentClient = null;
       this.currentIndex = -1;
     },
-    setActiveTutorial(tutorial, index) {
-      this.currentTutorial = tutorial;
-      this.currentIndex = tutorial ? index : -1;
+    setActiveClient(client, index) {
+      this.currentClient = client;
+      this.currentIndex = client ? index : -1;
     },
-    removeAllTutorials() {
-      TutorialDataService.deleteAll()
+    removeAllClients() {
+      ClientDataService.deleteAll()
         .then((response) => {
           console.log(response.data);
           this.refreshList();
@@ -106,11 +106,11 @@ export default {
         });
     },
 
-    searchTitle() {
-      TutorialDataService.findByTitle(this.title)
+    searchName() {
+      ClientDataService.findByName(this.name)
         .then((response) => {
-          this.tutorials = response.data;
-          this.setActiveTutorial(null);
+          this.clients = response.data;
+          this.setActiveClient(null);
           console.log(response.data);
         })
         .catch((e) => {
@@ -119,7 +119,7 @@ export default {
     },
   },
   mounted() {
-    this.retrieveTutorials();
+    this.retrieveClients();
   },
 };
 </script>

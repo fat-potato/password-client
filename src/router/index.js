@@ -21,9 +21,9 @@ const router = createRouter({
   routes: [
     {
       path: "/",
-      alias: "/tutorials",
-      name: "tutorials",
-      component: () => import("../components/TutorialsList.vue"),
+      alias: "/clients",
+      name: "clients",
+      component: () => import("../components/ClientsList.vue"),
     },
     {
       path: "/tutorials/:id",
