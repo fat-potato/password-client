@@ -1,10 +1,10 @@
 import http from "../http-common";
 class TypeDataService {
   getAll() {
-    return http.get("/clients/types");
+    return http.get("/manager/types");
   }
   create(data) {
-    return http.post("/clients/types", data);
+    return http.post("/manager/types", data);
   }
   update(id, data) {
     return http.put(`/types/${id}`, data);
