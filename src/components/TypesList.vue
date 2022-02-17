@@ -6,7 +6,7 @@
           type="text"
           class="form-control"
           placeholder="Search by name"
-          v-model="search"
+          @keyup="queryForKeywords"
         />
       </div>
     </div>
@@ -23,14 +23,14 @@
         <tbody>
           <tr
             :class="{ active: index == currentIndex }"
-            v-for="(type, index) in filteredTypes"
+            v-for="(type, index) in types"
             :key="index"
             @click="setActiveType(type, index)"
           >
             <th scope="row">{{ index + 1 }}</th>
             <td>{{ type.name }}</td>
             <td>
-              <router-link :to="'/types/' + type.id">Edit</router-link>
+              <!-- <router-link :to="'/types/' + type.id">Edit</router-link> -->
             </td>
           </tr>
         </tbody>
@@ -39,51 +39,26 @@
   </div>
 </template>
 <script>
-import TypeDataService from "../services/TypeDataService";
 export default {
   name: "types-list",
+  props: {
+    types: Array,
+  },
   data() {
     return {
-      search: "",
-      types: [],
       currentType: null,
       currentIndex: -1,
       name: "",
     };
   },
-  computed: {
-    filteredTypes() {
-      return this.types.filter((type) => {
-        return (
-          type.name.toLowerCase().indexOf(this.search.toLowerCase()) > -1
-        );
-      });
-    },
-  },
   methods: {
-    retrieveTypes() {
-      TypeDataService.getAll()
-        .then((response) => {
-          this.types = response.data;
-          console.log(response.data);
-        })
-        .catch((e) => {
-          console.log(e);
-        });
-    },
-    refreshList() {
-      this.retrieveTypes();
-      this.currentType = null;
-      this.currentIndex = -1;
+    queryForKeywords(event) {
+      this.$emit("searchKey", event.target.value);
     },
     setActiveType(type, index) {
       this.currentType = type;
       this.currentIndex = type ? index : -1;
     },
-
-  },
-  mounted() {
-    this.retrieveTypes();
   },
 };
 </script>

@@ -21,37 +21,19 @@
   </div>
 </template>
 <script>
-import TypeDataService from "../services/TypeDataService";
 export default {
   name: "add-type",
-  data() {
-    return {
-      type: {
-        id: null,
-        name: "",
-      },
-      submitted: false,
-    };
+  props: {
+    submitted: Boolean,
+    type: Object,
   },
   methods: {
     saveType() {
-      var data = {
-        name: this.type.name,
-      };
-      TypeDataService.create(data)
-        .then((response) => {
-          this.type.id = response.data.id;
-          console.log(response.data);
-          this.submitted = true;
-        })
-        .catch((e) => {
-          console.log(e);
-        });
+      this.$emit("saveType", this.type.name);
     },
 
     newType() {
-      this.submitted = false;
-      this.type = {};
+      this.$emit("newType");
     },
   },
 };
