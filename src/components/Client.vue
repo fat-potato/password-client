@@ -12,6 +12,15 @@
         />
       </div>
       <div class="form-group">
+        <label for="url">Url</label>
+        <input
+          type="text"
+          class="form-control"
+          id="url"
+          v-model="currentClient.site_url"
+        />
+      </div>
+      <div class="form-group">
         <label for="description">Description</label>
         <input
           type="text"
@@ -20,13 +29,8 @@
           v-model="currentClient.description"
         />
       </div>
-      <div class="form-group">
-        <label><strong>Status:</strong></label>
-        {{ currentClient.site_url }}
-      </div>
     </form>
-    <button
-      class="badge badge-primary mr-2"
+    <!-- <button
       v-if="currentClient.published"
       @click="updatePublished(false)"
     >
@@ -34,15 +38,14 @@
     </button>
     <button
       v-else
-      class="badge badge-primary mr-2"
       @click="updatePublished(true)"
     >
       Publish
-    </button>
-    <button class="badge badge-danger mr-2" @click="deleteClient">
+    </button> -->
+    <button class="btn btn-warning" @click="deleteClient">
       Delete
     </button>
-    <button type="submit" class="badge badge-success" @click="updateClient">
+    <button class="btn btn-primary" type="submit" @click="updateClient">
       Update
     </button>
     <p>{{ message }}</p>
@@ -73,23 +76,23 @@ export default {
           console.log(e);
         });
     },
-    updatePublished(status) {
-      var data = {
-        id: this.currentClient.id,
-        name: this.currentClient.title,
-        description: this.currentClient.description,
-        published: status,
-      };
-      ClientDataService.update(this.currentClient.id, data)
-        .then((response) => {
-          console.log(response.data);
-          this.currentClient.published = status;
-          this.message = "The status was updated successfully!";
-        })
-        .catch((e) => {
-          console.log(e);
-        });
-    },
+    // updatePublished(status) {
+    //   var data = {
+    //     id: this.currentClient.id,
+    //     name: this.currentClient.title,
+    //     description: this.currentClient.description,
+    //     published: status,
+    //   };
+    //   ClientDataService.update(this.currentClient.id, data)
+    //     .then((response) => {
+    //       console.log(response.data);
+    //       this.currentClient.published = status;
+    //       this.message = "The status was updated successfully!";
+    //     })
+    //     .catch((e) => {
+    //       console.log(e);
+    //     });
+    // },
     updateClient() {
       ClientDataService.update(this.currentClient.id, this.currentClient)
         .then((response) => {

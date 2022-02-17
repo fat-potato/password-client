@@ -1,8 +1,8 @@
 <template>
-  <div class="list row">
-    <div class="col-md-8">
+  <div class="container">
+    <div class="col-md-12">
       <div class="input-group mb-3">
-        <input
+        <!-- <input
           type="text"
           class="form-control"
           placeholder="Search by name"
@@ -16,27 +16,23 @@
           >
             Search
           </button>
-        </div>
+        </div> -->
+
+        <input
+          type="text"
+          class="form-control"
+          placeholder="Search by name"
+          v-model="search"
+        />
       </div>
     </div>
-    <div class="col-md-6">
+    <!-- <div class="col-md-12">
       <h4>Clients List</h4>
-      <ul class="list-group">
-        <li
-          class="list-group-item"
-          :class="{ active: index == currentIndex }"
-          v-for="(client, index) in clients"
-          :key="index"
-          @click="setActiveClient(client, index)"
-        >
-          {{ client.name }}
-        </li>
-      </ul>
       <button class="m-3 btn btn-sm btn-danger" @click="removeAllClients">
         Remove All
       </button>
-    </div>
-    <div class="col-md-6">
+    </div> -->
+    <!-- <div class="col-md-6">
       <div v-if="currentClient">
         <h4>Client</h4>
         <div>
@@ -60,6 +56,35 @@
         <br />
         <p>Please click on a Client...</p>
       </div>
+    </div> -->
+    <div class="table-responsive">
+      <table class="table table-bordered table-hover">
+        <thead>
+          <tr>
+            <th scope="col">#</th>
+            <th scope="col">Name</th>
+            <th scope="col">Url</th>
+            <th scope="col">Description</th>
+            <th scope="col">Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr
+            :class="{ active: index == currentIndex }"
+            v-for="(client, index) in filteredClients"
+            :key="index"
+            @click="setActiveClient(client, index)"
+          >
+            <th scope="row">{{ index + 1 }}</th>
+            <td>{{ client.name }}</td>
+            <td>{{ client.site_url }}</td>
+            <td>{{ client.description }}</td>
+            <td>
+              <router-link :to="'/clients/' + client.id">Edit</router-link>
+            </td>
+          </tr>
+        </tbody>
+      </table>
     </div>
   </div>
 </template>
@@ -69,11 +94,21 @@ export default {
   name: "clients-list",
   data() {
     return {
+      search: "",
       clients: [],
       currentClient: null,
       currentIndex: -1,
       name: "",
     };
+  },
+  computed: {
+    filteredClients() {
+      return this.clients.filter((client) => {
+        return (
+          client.name.toLowerCase().indexOf(this.search.toLowerCase()) > -1
+        );
+      });
+    },
   },
   methods: {
     retrieveClients() {
@@ -106,24 +141,24 @@ export default {
         });
     },
 
-    searchName() {
-      ClientDataService.findByName(this.name)
-        .then((response) => {
-          this.clients = response.data;
-          this.setActiveClient(null);
-          console.log(response.data);
-        })
-        .catch((e) => {
-          console.log(e);
-        });
-    },
+    // searchName() {
+    //   ClientDataService.findByName(this.name)
+    //     .then((response) => {
+    //       this.clients = response.data;
+    //       this.setActiveClient(null);
+    //       console.log(response.data);
+    //     })
+    //     .catch((e) => {
+    //       console.log(e);
+    //     });
+    // },
   },
   mounted() {
     this.retrieveClients();
   },
 };
 </script>
-<style>
+<style lang="scss">
 .list {
   text-align: left;
   max-width: 750px;
