@@ -35,6 +35,14 @@ const router = createRouter({
       name: "add",
       component: () => import("../components/AddClient.vue"),
     },
+    {
+      path: "/type",
+      name: "type",
+      // route level code-splitting
+      // this generates a separate chunk (TypeManagerView.[hash].js) for this route
+      // which is lazy-loaded when the route is visited.
+      component: () => import("../views/TypeManagerView.vue"),
+    },
   ],
 });
 

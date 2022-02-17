@@ -20,7 +20,10 @@
               <router-link to="/clients" class="nav-link">Clients</router-link>
             </li>
             <li class="nav-item">
-              <router-link to="/add" class="nav-link">Add</router-link>
+              <router-link to="/add" class="nav-link">Add Client</router-link>
+            </li>
+            <li class="nav-item">
+              <router-link to="/type" class="nav-link">Credential Types</router-link>
             </li>
           </ul>
         </div>

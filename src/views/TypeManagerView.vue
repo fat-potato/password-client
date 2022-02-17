@@ -1,6 +1,10 @@
+<script setup>
+import AddType from "@/components/AddType.vue";
+</script>
+
 <template>
-  <div class="about">
-    <h1>This is an about page</h1>
+  <div class="container">
+    <AddType />
   </div>
 </template>
 
