@@ -1,14 +1,14 @@
 <template>
-  <div v-if="currentTutorial" class="edit-form">
+  <div v-if="currentClient" class="edit-form">
     <h4>Tutorial</h4>
     <form>
       <div class="form-group">
-        <label for="title">Title</label>
+        <label for="title">Name</label>
         <input
           type="text"
           class="form-control"
           id="title"
-          v-model="currentTutorial.title"
+          v-model="currentClient.name"
         />
       </div>
       <div class="form-group">
@@ -17,17 +17,17 @@
           type="text"
           class="form-control"
           id="description"
-          v-model="currentTutorial.description"
+          v-model="currentClient.description"
         />
       </div>
       <div class="form-group">
         <label><strong>Status:</strong></label>
-        {{ currentTutorial.published ? "Published" : "Pending" }}
+        {{ currentClient.site_url }}
       </div>
     </form>
     <button
       class="badge badge-primary mr-2"
-      v-if="currentTutorial.published"
+      v-if="currentClient.published"
       @click="updatePublished(false)"
     >
       UnPublish
@@ -39,34 +39,34 @@
     >
       Publish
     </button>
-    <button class="badge badge-danger mr-2" @click="deleteTutorial">
+    <button class="badge badge-danger mr-2" @click="deleteClient">
       Delete
     </button>
-    <button type="submit" class="badge badge-success" @click="updateTutorial">
+    <button type="submit" class="badge badge-success" @click="updateClient">
       Update
     </button>
     <p>{{ message }}</p>
   </div>
   <div v-else>
     <br />
-    <p>Please click on a Tutorial...</p>
+    <p>Please click on a Client...</p>
   </div>
 </template>
 <script>
-import TutorialDataService from "../services/TutorialDataService";
+import ClientDataService from "../services/ClientDataService";
 export default {
-  name: "tutorial",
+  name: "client",
   data() {
     return {
-      currentTutorial: null,
+      currentClient: null,
       message: "",
     };
   },
   methods: {
-    getTutorial(id) {
-      TutorialDataService.get(id)
+    getClient(id) {
+      ClientDataService.get(id)
         .then((response) => {
-          this.currentTutorial = response.data;
+          this.currentClient = response.data;
           console.log(response.data);
         })
         .catch((e) => {
@@ -75,36 +75,36 @@ export default {
     },
     updatePublished(status) {
       var data = {
-        id: this.currentTutorial.id,
-        title: this.currentTutorial.title,
-        description: this.currentTutorial.description,
+        id: this.currentClient.id,
+        name: this.currentClient.title,
+        description: this.currentClient.description,
         published: status,
       };
-      TutorialDataService.update(this.currentTutorial.id, data)
+      ClientDataService.update(this.currentClient.id, data)
         .then((response) => {
           console.log(response.data);
-          this.currentTutorial.published = status;
+          this.currentClient.published = status;
           this.message = "The status was updated successfully!";
         })
         .catch((e) => {
           console.log(e);
         });
     },
-    updateTutorial() {
-      TutorialDataService.update(this.currentTutorial.id, this.currentTutorial)
+    updateClient() {
+      ClientDataService.update(this.currentClient.id, this.currentClient)
         .then((response) => {
           console.log(response.data);
-          this.message = "The tutorial was updated successfully!";
+          this.message = "The client was updated successfully!";
         })
         .catch((e) => {
           console.log(e);
         });
     },
-    deleteTutorial() {
-      TutorialDataService.delete(this.currentTutorial.id)
+    deleteClient() {
+      ClientDataService.delete(this.currentClient.id)
         .then((response) => {
           console.log(response.data);
-          this.$router.push({ name: "tutorials" });
+          this.$router.push({ name: "clients" });
         })
         .catch((e) => {
           console.log(e);
@@ -113,7 +113,7 @@ export default {
   },
   mounted() {
     this.message = "";
-    this.getTutorial(this.$route.params.id);
+    this.getClient(this.$route.params.id);
   },
 };
 </script>

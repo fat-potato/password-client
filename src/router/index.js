@@ -26,9 +26,9 @@ const router = createRouter({
       component: () => import("../components/ClientsList.vue"),
     },
     {
-      path: "/tutorials/:id",
-      name: "tutorial-details",
-      component: () => import("../components/Tutorial.vue"),
+      path: "/clients/:id",
+      name: "client-details",
+      component: () => import("../components/Client.vue"),
     },
     {
       path: "/add",
