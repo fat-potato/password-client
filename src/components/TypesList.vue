@@ -30,7 +30,9 @@
             <th scope="row">{{ index + 1 }}</th>
             <td>{{ type.name }}</td>
             <td>
-              <!-- <router-link :to="'/types/' + type.id">Edit</router-link> -->
+              <button class="btn btn-warning" @click="() => deleteType(type)">
+                Delete
+              </button>
             </td>
           </tr>
         </tbody>
@@ -58,6 +60,9 @@ export default {
     setActiveType(type, index) {
       this.currentType = type;
       this.currentIndex = type ? index : -1;
+    },
+    deleteType(type) {
+      this.$emit("deleteType", type);
     },
   },
 };

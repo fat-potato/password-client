@@ -7,10 +7,10 @@ class TypeDataService {
     return http.post("/manager/types", data);
   }
   update(id, data) {
-    return http.put(`/types/${id}`, data);
+    return http.put(`/manager/types/${id}`, data);
   }
   delete(id) {
-    return http.delete(`/types/${id}`);
+    return http.delete(`/manager/types/${id}`);
   }
 }
 export default new TypeDataService();

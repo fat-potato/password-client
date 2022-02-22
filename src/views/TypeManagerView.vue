@@ -62,6 +62,16 @@ export default {
     searchKey(k) {
       this.search = k;
     },
+    deleteType(type) {
+      TypeDataService.delete(type.id)
+        .then((response) => {
+          console.log(response.data);
+          this.refreshList();
+        })
+        .catch((e) => {
+          console.log(e);
+        });
+    },
   },
 
   mounted() {
@@ -78,7 +88,7 @@ export default {
       @save-type="saveType"
       @new-type="newType"
     />
-    <TypesList :types="this.filteredTypes" @search-key="searchKey" />
+    <TypesList :types="this.filteredTypes" @search-key="searchKey" @delete-type="deleteType" />
   </div>
 </template>
 
